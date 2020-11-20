@@ -16,14 +16,14 @@
       "dom"
     ],
     "paths": {
-      "form-core": [
-        "dist/form-core/form-core",
-        "dist/form-core"
+      "@form/*": [
+        "./projects/form-core/src",
       ],
-      "util": [
-        "dist/util/util",
-        "dist/util"
-      ]
+      "@util/*": [
+        "./projects/util/src",
+      ],
+      "@delon/util/*": ["./projects/form-core/src/util/*"],
+      "@delon/theme/*": ["./projects/form-core/src/theme/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]
