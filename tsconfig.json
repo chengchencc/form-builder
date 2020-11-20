@@ -22,8 +22,12 @@
       "@util/*": [
         "./projects/util/src",
       ],
+      "@delon/util": ["./projects/form-core/src/util"],
       "@delon/util/*": ["./projects/form-core/src/util/*"],
+      "@delon/theme": ["./projects/form-core/src/theme"],
       "@delon/theme/*": ["./projects/form-core/src/theme/*"],
+      "@delon/acl": ["./projects/form-core/src/acl"],
+      "@delon/acl/*": ["./projects/form-core/src/acl/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]
