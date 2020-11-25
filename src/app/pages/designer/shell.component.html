@@ -5,22 +5,53 @@
                 表单设计器
             </div>
             <div class="right">
-                <!-- <a-button type="button">run</a-button> -->
+                <button nz-button nzType="primary" (click)="openDrawer()">预览</button>
             </div>
         </div>
         <div class="main">
-            <div class="sidebar scroll">
-                <ul class="drag-list">
-                    <li class="drag-item" draggable="true" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,13]; let i=index">
-                        aaa
-                    </li>
-                </ul>
+            <div class="sidebar scroll" id="content-2">
+                <nz-tabset [nzCentered]="true" [nzType]="'card'">
+                    <nz-tab nzTitle="组件">
+                        <div class="group" *ngFor="let groupItem of dragableItems; let i=index">
+                            <div class="group-title">
+                                {{groupItem.title}}
+                            </div>
+                            <div class="group-content">
+                                <ul class="drag-list">
+                                    <li class="drag-item" appDraggable appDroppable [passData]="item"
+                                        *ngFor="let item of groupItem.components; let j=index">
+                                        <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>{{item.title}}
+                                        <div *appDraggableHelper>
+                                            <div class="drag-item">
+                                                <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>{{item.title}}
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nz-tab>
+                    <nz-tab nzTitle="模型">
+                        Content of Tab Pane 2
+                    </nz-tab>
+                </nz-tabset>
+
             </div>
-            <div class="content">content</div>
+            <div class="content" id="content-1" appDropzone (onDragDrop)="onDroped($event)">
+                <app-content></app-content>
+            </div>
         </div>
         <div class="footer">footer</div>
     </div>
     <div class="aside">
-        aside
+        <nz-tabset [nzCentered]="true" [nzType]="'card'">
+            <nz-tab nzTitle="属性">
+                aaa
+            </nz-tab>
+            <nz-tab nzTitle="组件树">
+                Content of Tab Pane 2
+            </nz-tab>
+        </nz-tabset>
+        <!-- <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor> -->
     </div>
 </div>

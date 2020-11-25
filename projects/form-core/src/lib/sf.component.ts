@@ -463,6 +463,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: { [P in keyof this]?: SimpleChange } & SimpleChanges): void {
+    console.log("rootProperty",this.rootProperty);
     if (Object.keys(changes).length === 1 && (changes.loading || changes.disabled)) {
       this.cdr.detectChanges();
       return;
@@ -551,6 +552,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
     this.coverButtonProperty();
 
     this.rootProperty = this.formPropertyFactory.createProperty(this._schema, this._ui, this.formData);
+    console.log('create property:', this.rootProperty);
     this.attachCustomRender();
     this.cdr.detectChanges();
     this.reset();

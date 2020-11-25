@@ -90,6 +90,8 @@ import { TimeWidget } from './widgets/time/time.widget';
 import { TransferWidget } from './widgets/transfer/transfer.widget';
 import { TreeSelectWidget } from './widgets/tree-select/tree-select.widget';
 import { UploadWidget } from './widgets/upload/upload.widget';
+import { SettingService } from './settable/setting.sevice';
+import { WidgetSettableDirective } from './settable/widget-settable.directive';
 
 const WIDGETS = [
   ObjectWidget,
@@ -120,9 +122,9 @@ const WIDGETS = [
 
 @NgModule({
   imports: [CommonModule, FormsModule, DelonUtilModule, DelonLocaleModule, ...ZORROS],
-  declarations: [...COMPONENTS, ...WIDGETS],
+  declarations: [WidgetSettableDirective, ...COMPONENTS, ...WIDGETS],
   entryComponents: [...WIDGETS],
-  exports: [...COMPONENTS],
+  exports: [WidgetSettableDirective, ...COMPONENTS],
 })
 export class DelonFormModule {
   static forRoot(): ModuleWithProviders<DelonFormModule> {
@@ -135,6 +137,7 @@ export class DelonFormModule {
           deps: [AlainConfigService],
         },
         { provide: WidgetRegistry, useClass: NzWidgetRegistry },
+        { provide: SettingService, useClass: SettingService}
       ],
     };
   }

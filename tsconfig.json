@@ -16,19 +16,52 @@
       "dom"
     ],
     "paths": {
+      "@form": [
+        "./projects/form-core/src"
+      ],
       "@form/*": [
-        "./projects/form-core/src",
+        "./projects/form-core/src/*"
+      ],
+      "@util": [
+        "./projects/util/src"
       ],
       "@util/*": [
-        "./projects/util/src",
+        "./projects/util/src/*"
       ],
-      "@delon/util": ["./projects/form-core/src/util"],
-      "@delon/util/*": ["./projects/form-core/src/util/*"],
-      "@delon/theme": ["./projects/form-core/src/theme"],
-      "@delon/theme/*": ["./projects/form-core/src/theme/*"],
-      "@delon/acl": ["./projects/form-core/src/acl"],
-      "@delon/acl/*": ["./projects/form-core/src/acl/*"],
+      "@delon/util": [
+        "./projects/form-core/src/util"
+      ],
+      "@delon/util/*": [
+        "./projects/form-core/src/util/*"
+      ],
+      "@delon/theme": [
+        "./projects/form-core/src/theme"
+      ],
+      "@delon/theme/*": [
+        "./projects/form-core/src/theme/*"
+      ],
+      "@delon/acl": [
+        "./projects/form-core/src/acl"
+      ],
+      "@delon/acl/*": [
+        "./projects/form-core/src/acl/*"
+      ],
+      "@core": [
+        "./src/app/core"
+      ],
+      "@core/*": [
+        "./src/app/core/*"
+      ],
+      "@dnd": [
+        "./projects/dnd/src"
+      ],
+      "@dnd/*": [
+        "./projects/dnd/src/*"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

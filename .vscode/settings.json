@@ -1,0 +1,8 @@
+{
+    "eslint.format.enable": true,
+    "prettier.printWidth": 200,
+    "eslint.codeActionsOnSave.mode": "all",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+}

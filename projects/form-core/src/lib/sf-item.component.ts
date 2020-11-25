@@ -53,6 +53,7 @@ export class SFItemComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.terminator.onDestroy.subscribe(() => this.ngOnDestroy());
+    console.log(this.formProperty);
   }
 
   ngOnChanges(): void {
