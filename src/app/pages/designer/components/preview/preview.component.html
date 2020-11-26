@@ -4,5 +4,5 @@
     <ngx-monaco-editor style="height: 100%;" [options]="editorOptions" [(ngModel)]="value"></ngx-monaco-editor>
 </div>
 <div class="right-half">
-    <app-content></app-content>
+    <sf *ngIf="schema" [schema]="schema" (formSubmit)="submit($event)" [button]="button" [settable]="false"  ></sf>
 </div>

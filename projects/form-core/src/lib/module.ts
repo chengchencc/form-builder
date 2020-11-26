@@ -1,3 +1,4 @@
+import { SettableComponent } from './settable/settable.component';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -122,9 +123,9 @@ const WIDGETS = [
 
 @NgModule({
   imports: [CommonModule, FormsModule, DelonUtilModule, DelonLocaleModule, ...ZORROS],
-  declarations: [WidgetSettableDirective, ...COMPONENTS, ...WIDGETS],
+  declarations: [WidgetSettableDirective, SettableComponent, ...COMPONENTS, ...WIDGETS],
   entryComponents: [...WIDGETS],
-  exports: [WidgetSettableDirective, ...COMPONENTS],
+  exports: [WidgetSettableDirective, SettableComponent, ...COMPONENTS],
 })
 export class DelonFormModule {
   static forRoot(): ModuleWithProviders<DelonFormModule> {
@@ -136,8 +137,7 @@ export class DelonFormModule {
           useClass: AjvSchemaValidatorFactory,
           deps: [AlainConfigService],
         },
-        { provide: WidgetRegistry, useClass: NzWidgetRegistry },
-        { provide: SettingService, useClass: SettingService}
+        { provide: WidgetRegistry, useClass: NzWidgetRegistry }
       ],
     };
   }

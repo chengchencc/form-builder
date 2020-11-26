@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  position: relative;
+  &.selected {
+    border: 1px solid #1890ff;
+
+    .setting-tool {
+      display: block;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+
+      button.setting-tool-item {
+        background: #1890ff;
+        color: white;
+        border: 1px solid;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.setting-tool {
+  display: none;
+}

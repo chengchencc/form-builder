@@ -26,22 +26,30 @@ export class DesignerService {
       email: {
         type: 'string',
         title: '邮箱',
-        format: 'email'
+        format: 'email',
+        ui: {
+          widget: 'string',
+          grid: { span: 24 }
+        }
       },
       name: {
         type: 'string',
         title: '姓名',
-        minLength: 5
-      },
-      remark: {
-        type: 'string',
-        title: '描述',
+        minLength: 5,
         ui: {
-          widget: 'textarea',
-          autosize: true,
-          grid: {
-            span: 24
-          }
+          widget: 'string',
+          grid: { span: 24 }
+        }
+      },
+      range: {
+        type: 'number',
+        title: '范围',
+        default: 12,
+        minimum: 1,
+        maximum: 24,
+        ui: {
+          widget: 'slider',
+          grid: { span: 24 }
         }
       }
     },

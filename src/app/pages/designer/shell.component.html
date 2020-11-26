@@ -46,7 +46,7 @@
     <div class="aside">
         <nz-tabset [nzCentered]="true" [nzType]="'card'">
             <nz-tab nzTitle="属性">
-                aaa
+                <sf *ngIf="optionsSchema" [schema]="optionsSchema" [formData] ="formData" (formChange)="formChange($event)" (formValueChange)="formValueChange($event)" [button]="null"></sf>
             </nz-tab>
             <nz-tab nzTitle="组件树">
                 Content of Tab Pane 2

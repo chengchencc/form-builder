@@ -6,6 +6,9 @@ import { DesignerService } from './services/designer.service';
 import { uuid } from '@util';
 import { SFSchema } from '@form';
 import { FormComponent } from '@core/dragableItems';
+import { SettingService } from '../../../../projects/form-core/src/lib/settable/setting.sevice';
+import { SettableComponent } from '../../../../projects/form-core/src/lib/settable/settable.component';
+import { WidgetRegistry } from '../../../../projects/form-core/src/lib/widget.factory';
 
 function getId(): string {
   return uuid(8, 10);
@@ -37,9 +40,22 @@ export class ShellComponent implements OnInit {
     }
   ];
 
-  constructor(private drawerService: NzDrawerService, private designerService: DesignerService) { }
+  optionsSchema: SFSchema;
+  formData: any;
+
+  constructor(
+    private drawerService: NzDrawerService,
+    private designerService: DesignerService,
+    private settingService: SettingService,
+    private widgetRegistry: WidgetRegistry) { }
 
   ngOnInit(): void {
+    this.settingService.onSelectedChange.subscribe((s: SettableComponent) => {
+      this.optionsSchema = this.widgetRegistry.getOptionsSchema(s.formProperty.schema.type);
+      console.log('current Setting optionsSchema :: ', this.optionsSchema);
+      this.formData = this.settingService.current.formProperty.schema;
+      console.log('formData :: ', this.formData);
+    });
   }
 
   onDroped(event: any): void {
@@ -78,4 +94,35 @@ export class ShellComponent implements OnInit {
       }
     });
   }
+
+  formValueChange(event) {
+    console.log('formValueChange :: ', event);
+
+
+    // console.log('settingservice :: ', this.settingService.current);
+    // console.log('designerService :: ', this.designerService);
+
+
+  }
+  formChange(event) {
+    console.log('formchange :: ', event);
+
+    const { schema, path } = this.settingService.current.formProperty;
+    const config = this.findByPath(this.designerService.config, path);
+    // 引用类型，通过assign修改内部变量值
+    Object.assign(config, event);
+    this.designerService.changeConfig({...this.designerService.config});
+  }
+
+  findByPath(sfschema: SFSchema, path: string) {
+    const pathes = path.split('/');
+    let config = sfschema;
+    for (const el of pathes) {
+      if (el) {
+        config = config.properties[el];
+      }
+    }
+    return config;
+  }
+
 }

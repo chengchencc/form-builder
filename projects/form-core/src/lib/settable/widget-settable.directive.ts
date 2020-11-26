@@ -51,15 +51,15 @@ export class WidgetSettableDirective implements DoCheck {
         }
     }
 
-    @HostBinding('class.selected')
-    get selected() {
-        return this == this.settingService.selectedSettable;
-    }
-    @HostBinding('class.is-empty')
-    get isEmpty()
-    {
-        return this.config.layout && this.config.layout.length == 0;
-    }
+    // @HostBinding('class.selected')
+    // get selected() {
+    //     return this == this.settingService.selectedSettable;
+    // }
+    // @HostBinding('class.is-empty')
+    // get isEmpty()
+    // {
+    //     return this.config.layout && this.config.layout.length == 0;
+    // }
 
     ngOnInit() {
         // 方式2：
@@ -71,7 +71,7 @@ export class WidgetSettableDirective implements DoCheck {
         // this._checkClassesAndStyleChangesThenApply();
 
         // 把自己注册到 map 里
-        this.settingService.configSettableMap[this._config.id] = this;
+        // this.settingService.configSettableMap[this._config.id] = this;
     }
 
     /**
@@ -100,73 +100,73 @@ export class WidgetSettableDirective implements DoCheck {
         }
     }
 
-    @HostListener('click', ['$event'])
-    handleClick(event: MouseEvent) {
-        event.stopPropagation();
-        event.preventDefault();
+    // @HostListener('click', ['$event'])
+    // handleClick(event: MouseEvent) {
+    //     event.stopPropagation();
+    //     event.preventDefault();
 
-        this.settingService.selectSettable(this);
-    }
-    // TODO:mouse事件会导致angular频繁变化检查，暂时先去掉
-    // @HostListener('mouseenter')
-    handleEnter() {
-        this.settingService.enterSettable(this);
-    }
-    // TODO:mouse事件会导致angular频繁变化检查，暂时先去掉
-    // @HostListener('mouseleave')
-    handleLeave() {
-        this.settingService.leaveSettable();
-    }
+    //     this.settingService.selectSettable(this);
+    // }
+    // // TODO:mouse事件会导致angular频繁变化检查，暂时先去掉
+    // // @HostListener('mouseenter')
+    // handleEnter() {
+    //     this.settingService.enterSettable(this);
+    // }
+    // // TODO:mouse事件会导致angular频繁变化检查，暂时先去掉
+    // // @HostListener('mouseleave')
+    // handleLeave() {
+    //     this.settingService.leaveSettable();
+    // }
 
-    onSelect() {
-        this.onSelected.emit(this.selected);
-    }
-    /**
-     * 移除自己
-     */
-    removeSelf() {
-        this._config.parent.removeNode(this._config);
-    }
+    // onSelect() {
+    //     this.onSelected.emit(this.selected);
+    // }
+    // /**
+    //  * 移除自己
+    //  */
+    // removeSelf() {
+    //     this._config.parent.removeNode(this._config);
+    // }
 
-    saveAsTemplate() {
-        this.openModalWithComponent((tplName) => {
-            // this.layoutService.addLayoutTemplate({
-            //     name: tplName,
-            //     id: "",
-            //     layoutConfig: this.config
-            // });
-        });
-    }
-    // 选择上级
-    selectParent(event: MouseEvent) {
-        event.stopPropagation();
-        if (this.parent) {
-            this.settingService.selectSettable(this.parent);
-        }
-        console.log('settabledirective::', event);
-    }
+    // saveAsTemplate() {
+    //     this.openModalWithComponent((tplName) => {
+    //         // this.layoutService.addLayoutTemplate({
+    //         //     name: tplName,
+    //         //     id: "",
+    //         //     layoutConfig: this.config
+    //         // });
+    //     });
+    // }
+    // // 选择上级
+    // selectParent(event: MouseEvent) {
+    //     event.stopPropagation();
+    //     if (this.parent) {
+    //         this.settingService.selectSettable(this.parent);
+    //     }
+    //     console.log('settabledirective::', event);
+    // }
 
-    openModalWithComponent(callback: any) {
-        const initialState = {
-            title: '请输入模板名称',
-            onOk: callback
-        };
-        // this.bsModalRef = this.modalService.show(CreateTemplateModalComponent, {initialState});
-        // this.bsModalRef.content.closeBtnName = 'Close';
-    }
+    // openModalWithComponent(callback: any) {
+    //     const initialState = {
+    //         title: '请输入模板名称',
+    //         onOk: callback
+    //     };
+    //     // this.bsModalRef = this.modalService.show(CreateTemplateModalComponent, {initialState});
+    //     // this.bsModalRef.content.closeBtnName = 'Close';
+    // }
 
-    getPath(): string[] {
-        // TODO:目前出来的路径不对，需要完善
+    // getPath(): string[] {
+    //     // TODO:目前出来的路径不对，需要完善
 
-        const path: string[] = [];
-        let next = this._config;
-        while (next) {
-            path.push(next.type);
-            next = next.parent;
-        }
+    //     const path: string[] = [];
+    //     let next = this._config;
+    //     while (next) {
+    //         path.push(next.type);
+    //         next = next.parent;
+    //     }
 
-        return path.reverse();
-    }
+    //     return path.reverse();
+    // }
 
     private _applyClassesIterableChanges(changes: IterableChanges<string>): void {
         changes.forEachAddedItem((record) => {

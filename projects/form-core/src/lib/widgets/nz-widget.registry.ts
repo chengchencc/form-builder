@@ -1,3 +1,4 @@
+import { SFStringWidgetConfigSchema } from './string/config.schema';
 import { WidgetRegistry } from '../widget.factory';
 import { ArrayWidget } from './array/array.widget';
 import { AutoCompleteWidget } from './autocomplete/autocomplete.widget';
@@ -21,6 +22,7 @@ import { TimeWidget } from './time/time.widget';
 import { TransferWidget } from './transfer/transfer.widget';
 import { TreeSelectWidget } from './tree-select/tree-select.widget';
 import { UploadWidget } from './upload/upload.widget';
+import { SFSliderWidgetConfigSchema } from './slider/config.schema';
 
 export class NzWidgetRegistry extends WidgetRegistry {
   constructor() {
@@ -30,8 +32,8 @@ export class NzWidgetRegistry extends WidgetRegistry {
     this.register('array', ArrayWidget);
 
     this.register('text', TextWidget);
-    this.register('string', StringWidget);
-    this.register('number', NumberWidget);
+    this.register('string', StringWidget, SFStringWidgetConfigSchema);
+    this.register('number', NumberWidget, SFSliderWidgetConfigSchema);
     this.register('integer', NumberWidget);
     this.register('date', DateWidget);
     this.register('time', TimeWidget);
@@ -44,7 +46,7 @@ export class NzWidgetRegistry extends WidgetRegistry {
     this.register('tag', TagWidget);
     this.register('upload', UploadWidget);
     this.register('transfer', TransferWidget);
-    this.register('slider', SliderWidget);
+    this.register('slider', SliderWidget, SFSliderWidgetConfigSchema);
     this.register('rate', RateWidget);
     this.register('autocomplete', AutoCompleteWidget);
     this.register('cascader', CascaderWidget);
@@ -52,5 +54,6 @@ export class NzWidgetRegistry extends WidgetRegistry {
     this.register('custom', CustomWidget);
 
     this.setDefault(StringWidget);
+    this.setDefaultOptionsSchema(SFStringWidgetConfigSchema);
   }
 }

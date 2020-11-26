@@ -123,6 +123,8 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
   /** 是否只展示错误视觉不显示错误文本 */
   @Input() @InputBoolean() onlyVisual = false;
   @Input() @InputBoolean() compact = false;
+  /** 是否可配置 */
+  @Input() @InputBoolean() settable = false;
   /** 表单模式 */
   @Input()
   set mode(value: SFMode) {
@@ -207,8 +209,8 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
   onSubmit(e: Event): void {
     e.preventDefault();
     e.stopPropagation();
-    if (!this.liveValidate) this.validator();
-    if (!this.valid) return;
+    if (!this.liveValidate) { this.validator(); }
+    if (!this.valid) { return; }
     this.formSubmit.emit(this.value);
   }
 
@@ -269,7 +271,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
       parentUiSchema: SFUISchemaItemRun,
       uiRes: SFUISchemaItemRun,
     ) => {
-      if (!Array.isArray(schema.required)) schema.required = [];
+      if (!Array.isArray(schema.required)) { schema.required = []; }
 
       Object.keys(schema.properties!).forEach(key => {
         const uiKey = `$${key}`;
@@ -290,10 +292,11 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
               ui.spanLabelFixed = parentUiSchema.spanLabelFixed;
             }
           } else {
-            if (!ui.spanLabel) ui.spanLabel = typeof parentUiSchema.spanLabel === 'undefined' ? 5 : parentUiSchema.spanLabel;
-            if (!ui.spanControl) ui.spanControl = typeof parentUiSchema.spanControl === 'undefined' ? 19 : parentUiSchema.spanControl;
-            if (!ui.offsetControl)
+            if (!ui.spanLabel) { ui.spanLabel = typeof parentUiSchema.spanLabel === 'undefined' ? 5 : parentUiSchema.spanLabel; }
+            if (!ui.spanControl) { ui.spanControl = typeof parentUiSchema.spanControl === 'undefined' ? 19 : parentUiSchema.spanControl; }
+            if (!ui.offsetControl) {
               ui.offsetControl = typeof parentUiSchema.offsetControl === 'undefined' ? null : parentUiSchema.offsetControl;
+            }
           }
         } else {
           ui.spanLabel = null;
@@ -388,7 +391,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
       });
     };
 
-    if (this.ui == null) this.ui = {};
+    if (this.ui == null) { this.ui = {}; }
     this._defUi = {
       onlyVisual: this.options.onlyVisual,
       size: this.options.size,
@@ -463,7 +466,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: { [P in keyof this]?: SimpleChange } & SimpleChanges): void {
-    console.log("rootProperty",this.rootProperty);
+    console.log('rootProperty', this.rootProperty);
     if (Object.keys(changes).length === 1 && (changes.loading || changes.disabled)) {
       this.cdr.detectChanges();
       return;
@@ -497,7 +500,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
     }
     const fn = (property: FormProperty) => {
       property._runValidation();
-      if (!(property instanceof PropertyGroup) || !property.properties) return;
+      if (!(property instanceof PropertyGroup) || !property.properties) { return; }
       if (Array.isArray(property.properties)) {
         property.properties.forEach(p => fn(p));
       } else {
@@ -512,7 +515,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
 
     const errors = this.rootProperty!.errors;
     this._valid = !(errors && errors.length);
-    if (options.emitError && !this._valid) this.formError.emit(errors!);
+    if (options.emitError && !this._valid) { this.formError.emit(errors!); }
     this.cdr.detectChanges();
     return this;
   }
@@ -534,24 +537,24 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
     if (!this.platform.isBrowser) {
       return this;
     }
-    if (newSchema) this.schema = newSchema;
-    if (newUI) this.ui = newUI;
+    if (newSchema) { this.schema = newSchema; }
+    if (newUI) { this.ui = newUI; }
 
-    if (!this.schema || typeof this.schema.properties === 'undefined') throw new Error(`Invalid Schema`);
-    if (this.schema.ui && typeof this.schema.ui === 'string') throw new Error(`Don't support string with root ui property`);
+    if (!this.schema || typeof this.schema.properties === 'undefined') { throw new Error(`Invalid Schema`); }
+    if (this.schema.ui && typeof this.schema.ui === 'string') { throw new Error(`Don't support string with root ui property`); }
 
     this.schema.type = 'object';
 
     this._formData = { ...this.formData };
 
-    if (this._inited) this.terminator.destroy();
+    if (this._inited) { this.terminator.destroy(); }
 
     this.cleanRootSub();
 
     this.coverProperty();
     this.coverButtonProperty();
 
-    this.rootProperty = this.formPropertyFactory.createProperty(this._schema, this._ui, this.formData);
+    this.rootProperty = this.formPropertyFactory.createProperty(this._schema, this._ui, this.formData, null, null, this.settable);
     console.log('create property:', this.rootProperty);
     this.attachCustomRender();
     this.cdr.detectChanges();
@@ -593,7 +596,7 @@ export class SFComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private cleanRootSub(): void {
-    if (!this.rootProperty) return;
+    if (!this.rootProperty) { return; }
     this.rootProperty.errorsChanges.unsubscribe();
     this.rootProperty.valueChanges.unsubscribe();
   }

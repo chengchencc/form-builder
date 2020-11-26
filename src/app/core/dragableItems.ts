@@ -69,6 +69,97 @@ export const formComponents: FormComponent[] = [
         schema: {
             type: 'string',
             title: '单行文本',
+            ui: {
+                widget: 'string',
+                grid: {
+                    span: 24
+                }
+            }
         }
-    }
+    },
+    {
+        title: '多行文本',
+        type: 'input',
+        icon: 'form',
+        schema: {
+            type: 'string',
+            title: '多行文本',
+            ui: {
+                widget: 'textarea',
+                grid: {
+                    span: 24
+                }
+            }
+        }
+    },
+    {
+        title: '数值',
+        type: 'input',
+        icon: 'form',
+        schema: {
+            type: 'number',
+            title: '数值',
+            minLength: 5,
+            minimum: 18,
+            maximum: 50,
+            default: 25,
+            ui: {
+                widget: 'number',
+                grid: {
+                    span: 24
+                }
+            }
+        }
+    },
+    {
+        title: '范围',
+        type: 'input',
+        icon: 'form',
+        schema: {
+            type: 'number',
+            title: '范围',
+            minLength: 5,
+            minimum: 18,
+            maximum: 50,
+            default: 25,
+            ui: {
+                widget: 'slider',
+                grid: {
+                    span: 24
+                }
+            }
+        }
+    },
+    {
+        title: '开关',
+        type: 'input',
+        icon: 'form',
+        schema: {
+            type: 'boolean',
+            title: '开关',
+            default: true,
+            ui: {
+                widget: 'boolean',
+                grid: {
+                    span: 24
+                }
+            }
+        }
+    },
+    {
+        title: '多选',
+        type: 'input',
+        icon: 'form',
+        schema: {
+            type: 'boolean',
+            title: '多选',
+            ui: {
+                widget: 'checkbox',
+                grid: {
+                    span: 24
+                }
+            }
+        }
+    },
+
 ];

@@ -1,3 +1,4 @@
+import { SettableComponent } from './settable.component';
 /**
  * @author [chengchen]
  * @email [chengchen216@hotmail.com]
@@ -14,20 +15,22 @@ import { WidgetSettableDirective } from './widget-settable.directive';
 /**
  * 部件配置服务
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class SettingService {
     /**
      * config -> settable 映射关系
     */
-    public configSettableMap: { [configId: string]: WidgetSettableDirective } = {};
+    public components: { [id: string]: SettableComponent } = {};
     /**
      * 当前选中项
      */
-    public selectedSettable: WidgetSettableDirective;
+    public current: SettableComponent;
     /**
      * 改变选中项
      */
-    public onSelectedChange = new Subject<WidgetSettableDirective>();
+    public onSelectedChange = new Subject<SettableComponent>();
     /**
      * 当选中项Settings改变
      */
@@ -35,17 +38,32 @@ export class SettingService {
     /**
      *  当前鼠标进入项
      */
-    public hoveringSettable: WidgetSettableDirective;
-
-    // TODO: remove
-    public onChangeConfig$: Observable<any>;
-    private onChangeConfigSubject$ = new Subject<any>();
+    public hoveringSettable: SettableComponent;
 
     constructor() {
-        // this.onSelectSettableItem$ = this.onSelectSettableItemSubject.asObservable();
-        this.onChangeConfig$ = this.onChangeConfigSubject$.asObservable();
     }
 
+    /**
+     * 注册组件
+     */
+    public register(id: string, component: SettableComponent) {
+        if (this.has(id)) {
+            throw new Error('settableComponent 重复注册！');
+        }
+        this.components[id] = component;
+    }
+    /**
+     * 移除注册的组件
+     */
+    public unregister(id: string, component: SettableComponent) {
+        if (this.has(id)) {
+            delete this.components[id];
+        }
+    }
+
+    private has(type: string): boolean {
+        return this.components.hasOwnProperty(type);
+    }
     /**
      * 选中可设置项
      * @param item settable item
@@ -60,26 +78,26 @@ export class SettingService {
     /**
      * 选中一个 settable item
      * 有重载，所以传入这个 item 的 config id 或 settable 都行
-     * @param configIdOrSettable config id 或 settable
+     * @param value id 或 settable
      */
-    selectSettable(configIdOrSettable: string | WidgetSettableDirective) {
-        this.selectedSettable = typeof configIdOrSettable == 'string' ? this.configSettableMap[configIdOrSettable] : configIdOrSettable;
-        this.onSelectedChange.next(this.selectedSettable);
+    active(value: string | SettableComponent) {
+        this.current = typeof value === 'string' ? this.components[value] : value;
+        this.onSelectedChange.next(this.current);
     }
     /** hover */
-    enterSettable(configIdOrSettable: string | WidgetSettableDirective) {
-        this.hoveringSettable = typeof configIdOrSettable == 'string' ? this.configSettableMap[configIdOrSettable] : configIdOrSettable;
-    }
-    leaveSettable() {
-        this.hoveringSettable = null;
-    }
+    // enterSettable(configIdOrSettable: string | WidgetSettableDirective) {
+    //     this.hoveringSettable = typeof configIdOrSettable == 'string' ? this.configSettableMap[configIdOrSettable] : configIdOrSettable;
+    // }
+    // leaveSettable() {
+    //     this.hoveringSettable = null;
+    // }
 
     // TODO: remove
-    changeConfig(config) {
-        this.onChangeConfigSubject$.next(config);
-    }
-    changeSettings(settings: any) {
-        this.onSettingsChange.next(settings);
-    }
+    // changeConfig(config) {
+    //     this.onChangeConfigSubject$.next(config);
+    // }
+    // changeSettings(settings: any) {
+    //     this.onSettingsChange.next(settings);
+    // }
 
 }

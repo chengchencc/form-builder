@@ -2,13 +2,21 @@ import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } 
 import { FormProperty } from './model/form.property';
 import { SFUISchemaItem } from './schema/ui';
 import { Widget } from './widget';
+import { SFSchema } from './schema/index';
+
+export interface WidgetRegistryInfo {
+  ctor: Widget<FormProperty, SFUISchemaItem>;
+  optionsSchema: SFSchema;
+}
 
 export class WidgetRegistry {
-  private _widgets: { [type: string]: Widget<FormProperty, SFUISchemaItem> } = {};
+  private _widgets: { [type: string]: WidgetRegistryInfo } = {};
 
   private defaultWidget: Widget<FormProperty, SFUISchemaItem>;
 
-  get widgets(): { [type: string]: Widget<FormProperty, SFUISchemaItem> } {
+  private defaultOptionsSchema: SFSchema;
+
+  get widgets(): { [type: string]: WidgetRegistryInfo } {
     return this._widgets;
   }
 
@@ -16,8 +24,15 @@ export class WidgetRegistry {
     this.defaultWidget = widget;
   }
 
-  register(type: string, widget: any): void {
-    this._widgets[type] = widget;
+  setDefaultOptionsSchema(schema: SFSchema): void {
+    this.defaultOptionsSchema = schema;
+  }
+
+  register(type: string, widget: any, optionsSchema: SFSchema = null): void {
+    this._widgets[type] = {
+      ctor: widget,
+      optionsSchema: optionsSchema || this.defaultOptionsSchema
+    };
   }
 
   has(type: string): boolean {
@@ -26,15 +41,23 @@ export class WidgetRegistry {
 
   getType(type: string): Widget<FormProperty, SFUISchemaItem> {
     if (this.has(type)) {
-      return this._widgets[type];
+      return this._widgets[type].ctor;
     }
     return this.defaultWidget;
   }
+
+  getOptionsSchema(type: string): SFSchema {
+    if (this.has(type)) {
+      return this._widgets[type].optionsSchema || this.defaultOptionsSchema;
+    }
+    return this.defaultOptionsSchema;
+  }
+
 }
 
 @Injectable()
 export class WidgetFactory {
-  constructor(private registry: WidgetRegistry, private resolver: ComponentFactoryResolver) {}
+  constructor(private registry: WidgetRegistry, private resolver: ComponentFactoryResolver) { }
 
   createWidget(container: ViewContainerRef, type: string): ComponentRef<Widget<FormProperty, SFUISchemaItem>> {
     if (!this.registry.has(type)) {
